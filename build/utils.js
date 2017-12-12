@@ -12,6 +12,31 @@ module.exports = function (appName, opt = {}) {
       })
     },
 
+    /**
+     * 清空文件夹
+     */
+    emptyDir(dirPath) {
+      const emptyDir = function (fileUrl) {
+        const files = fs.readdirSync(fileUrl)
+
+        files.forEach(function (fileName) {
+          const stats = fs.statSync(`${fileUrl}/${fileName}`)
+
+          if (stats.isDirectory()) {
+            return emptyDir(`${fileUrl}/${fileName}`)
+          } else {
+            if (fileName === 'error.pug') {
+              return false
+            }
+
+            return fs.unlinkSync(`${fileUrl}/${fileName}`)
+          }
+        })
+      }
+
+      return emptyDir(dirPath)
+    },
+
     assetsPath(_path) {
       var assetSubDirectory = process.env.NODE_ENV === 'production' ?
         config.build.assetSubDirectory :

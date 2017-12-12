@@ -14,28 +14,20 @@ const fs = require('fs')
 /**
  * 通过 entry 文件生成多应用的后端服务器 devServer 的视图
  */
-function buildDevServerView(entryHub, appDir) {
+function buildDevServerView(entryHub, appDir, emptyDir) {
   const appServerViewDir = `${appDir}/view`
 
   // 删除所有的文件(将所有文件夹置空)
-  const emptyDir = function (fileUrl) {
-    const files = fs.readdirSync(fileUrl)
-
-    files.forEach(function (file) {
-      const stats = fs.statSync(`${fileUrl}/${file}`)
-
-      if (stats.isDirectory()) {
-        emptyDir(`${fileUrl}/${file}`)
-      } else {
-        fs.unlinkSync(`${fileUrl}/${file}`)
-      }
-    })
-  }
-
   emptyDir(appServerViewDir)
 
-  entryHub.forEach((entryName) => {
+  console.log(`${appServerViewDir} has been removed`)
 
+  entryHub.forEach((entryName) => {
+    const pugContent = `<html><body><div id="app"></div><script type="text/javascript" src="/dev/js/${entryName}.bundle.js"></script></body></html>`
+
+    fs.writeFileSync(`${appServerViewDir}/${entryName}.pug`, pugContent)
+
+    console.log(`${appServerViewDir}/${entryName}.pug has been created`)
   })
 }
 
@@ -80,10 +72,7 @@ module.exports = function (appName) {
   server.use(cookieParser())
   server.use(express.static(path.resolve(appDir, './dist')))
 
-  devServerRouteCustom(server)
-  const devServerRoute = buildDevServerRoute(entryHub)
-  server.use('/', devServerRoute)
-
+  // 设置代理
   Object.keys(proxyTable).forEach((item) => {
     let options = proxyTable[item]
 
@@ -96,27 +85,22 @@ module.exports = function (appName) {
     server.use(item, proxyMiddleware(options))
   })
 
+  buildDevServerView(entryHub, appDir, utils.emptyDir)
+  const devServerRoute = buildDevServerRoute(entryHub)
+  server.use('/', devServerRoute)
+  devServerRouteCustom(server)
+
   server.use(function (req, res, next) {
     const err = new Error('Not Found')
     err.status = 404
     next(err)
   })
 
-  if (server.get('env').NODE_ENV === 'development') {
-    server.use(function (err, req, res, next) {
-      res.status(err.status || 500)
-      res.render('error', {
-        message: err.message,
-        error: err
-      })
-    })
-  }
-
   server.use(function (err, req, res, next) {
     res.status(err.status || 500)
     res.render('error', {
-      message: err.status,
-      error: {}
+      message: err.message,
+      error: err
     })
   })
 

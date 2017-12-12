@@ -28,8 +28,14 @@ module.exports = function (appName, opt = {}) {
       assetSubDirectory: appConfig.assetSubDirectory,
       proxyTable: {
         '/api/**': `http://localhost:${mockPort}`,
-        '/js/*.js': `http://localhost:${appConfig.hotPort}`,
-        '/css/*.css': `http://localhost:${appConfig.hotPort}`
+        '/dev/**': {
+          target: `http://localhost:${appConfig.hotPort}`,
+          changeOrigin: true,
+          pathRewrite: {
+            '^/dev': ''
+          }
+        },
+        '/dev/css/*.css': `http://localhost:${appConfig.hotPort}`
       },
       cssSourceMap: false
     },
