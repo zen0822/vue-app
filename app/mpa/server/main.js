@@ -5,5 +5,5 @@ const express = require('express')
 module.exports = function (server) {
   const routeWelcome = require('./route/welcome')
 
-  server.use('/', routeWelcome)
+  server.use('/custom/welcome', routeWelcome)
 }

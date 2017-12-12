@@ -35,7 +35,10 @@ module.exports = function (appName, opt = {}) {
             '^/dev': ''
           }
         },
-        '/dev/css/*.css': `http://localhost:${appConfig.hotPort}`
+        '/**.hot-update.*': {
+          target: `http://localhost:${appConfig.hotPort}`,
+          changeOrigin: true
+        }
       },
       cssSourceMap: false
     },

@@ -1,2 +1,2 @@
-src/asset/**/*.js
-src/lib/*/**/*.js
+node_modules
+**/test/coverage/*

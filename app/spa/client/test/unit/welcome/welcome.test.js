@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Welcome from 'appComp/Welcome/Welcome'
 
-describe('form 组件的相关测试', () => {
+describe('页面组件 Welcome 的相关测试', () => {
   const Ctor = Vue.extend(Welcome)
   const vm = new Ctor().$mount()
 

@@ -13,7 +13,8 @@
     "devMpa": "node bin/dev --app mpa",
     "prodSpa": "node bin/prod --app spa",
     "prodMpa": "node bin/prod --app mpa",
-    "testSpa": "node bin/test --app spa"
+    "testSpa": "node bin/test --app spa",
+    "testMpa": "node bin/test --app mpa"
   },
   "dependencies": {
     "autoprefixer": "*",
