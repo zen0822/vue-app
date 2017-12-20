@@ -2,42 +2,52 @@
 
 const fs = require('fs')
 const path = require('path')
-
-const optimist = require('optimist')
-var argv = optimist.boolean(['mobile', 'testing']).argv
-
-if (!argv.app) {
-    console.error('fatal: argv -app is undefined!')
-
-    return false
-}
+const argv = require('yargs')
+  .usage('Usage: $0 --app [string]')
+  .example('$0 --app example', 'Lunch dev server')
+  .option({
+    app: {
+      alias: 'a',
+      demandOption: true,
+      describe: 'App name',
+      type: 'string',
+      requiresArg: true
+    },
+    mobile: {
+      type: 'boolean'
+    },
+    testing: {
+      type: 'boolean'
+    }
+  })
+  .argv
 
 const appName = argv.app
-const config = require(path.resolve(__dirname, `./index`))(appName)
+const config = require(path.resolve(__dirname, `../build/config/index`))(appName)
 const appConfigPath = path.resolve(__dirname, '../app/' + appName + '/config.json')
 
 var appConfig = require(appConfigPath)
 
 if (argv.check) {
-    appConfig = JSON.stringify(appConfig, null, 2)
-    console.log(appConfig)
-    return false
+  appConfig = JSON.stringify(appConfig, null, 2)
+  console.log(appConfig)
+  return false
 }
 
 var argvKeys = Object.keys(argv)
 
 argvKeys.forEach((item) => {
-    if (item in appConfig) {
-        appConfig = Object.assign(appConfig, {
-            [item]: argv[item]
-        })
-    }
+  if (item in appConfig) {
+    appConfig = Object.assign(appConfig, {
+      [item]: argv[item]
+    })
+  }
 })
 
-var appConfigContent = JSON.stringify(appConfig, null, 4)
+var appConfigContent = JSON.stringify(appConfig, null, 2)
 
 fs.writeFile(appConfigPath, appConfigContent, function (err) {
-    if (err) {
-        return console.error(err)
-    }
+  if (err) {
+    return console.error(err)
+  }
 })
