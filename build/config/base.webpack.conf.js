@@ -74,6 +74,12 @@ module.exports = function (appName, opt = {}) {
           loaders: utils.cssLoaders()
         }
       }, {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: {
+          esModule: true
+        }
+      }, {
         enforce: 'pre',
         test: /\.(js|jsx)$/,
         loader: 'eslint-loader',
@@ -127,12 +133,6 @@ module.exports = function (appName, opt = {}) {
         loader: 'ts-loader',
         options: {
           appendTsSuffixTo: [/\.vue$/]
-        }
-      }, {
-        test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-          esModule: true
         }
       }]
     },
