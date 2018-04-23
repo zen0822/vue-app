@@ -6,6 +6,5 @@
   "assetSubDirectory": "static",
   "apiUrl": "",
   "hotPort": 5478,
-  "mockPort": 9478,
-  "serverPort": 5479
+  "mockPort": 9478
 }

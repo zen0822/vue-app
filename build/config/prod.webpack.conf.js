@@ -1,13 +1,16 @@
+const path = require('path')
+const webpack = require('webpack')
+const merge = require('webpack-merge')
+
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+
+const PrerenderSpaPlugin = require('prerender-spa-plugin')
+const Renderer = PrerenderSpaPlugin.PuppeteerRenderer
+
 module.exports = function (appName, opt = {}) {
-  const path = require('path')
-  const webpack = require('webpack')
-  const merge = require('webpack-merge')
-
-  const ExtractTextPlugin = require('extract-text-webpack-plugin')
-  const HtmlWebpackPlugin = require('html-webpack-plugin')
-  const CleanWebpackPlugin = require('clean-webpack-plugin')
-  const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-
   const utils = require('../utils')(appName)
   const config = require('./index')(appName)
   const appConfig = require('./app.conf')(appName)
@@ -53,9 +56,13 @@ module.exports = function (appName, opt = {}) {
       }),
       new UglifyJsPlugin({
         uglifyOptions: {
-          compress: {
-            warnings: false
-          }
+          ie8: false,
+          output: {
+            comments: false,
+            beautify: false
+          },
+          compress: true,
+          warnings: false
         }
       }),
       new ExtractTextPlugin({
@@ -75,7 +82,26 @@ module.exports = function (appName, opt = {}) {
     )
   }
 
-  if (config.build.productionGzip) {
+  if (appConfig.spaCodeSplit) {
+    webpackConfig.plugins.push(
+      new PrerenderSpaPlugin({
+        staticDir: config.doc.assetsRoot,
+        routes: appConfig.spaPrerenderRoute,
+        minify: {
+          collapseBooleanAttributes: true,
+          collapseWhitespace: true,
+          decodeEntities: true,
+          keepClosingSlash: true,
+          sortAttributes: true
+        },
+        renderer: new Renderer({
+          renderAfterTime: 500
+        })
+      })
+    )
+  }
+
+  if (appConfig.gzip) {
     var CompressionWebpackPlugin = require('compression-webpack-plugin')
 
     webpackConfig.plugins.push(

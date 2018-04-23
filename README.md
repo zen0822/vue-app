@@ -63,3 +63,19 @@ node bin/prod --app spa
 # 或者运行 npm 脚本
 # npm run prodMpa
 ```
+
+# 应用设置参数说明
+
+```
+appType: 应用名字
+assetRoot: 打包生成的文件存放的位置
+assetPublicPath: 打包生成的文件的公共路径
+assetSubDirectory: 静态文件存放位置
+apiUrl: api 的前缀
+hotPort: dev server 热加载端口号
+mockPort: 模拟数据的服务器端口号
+gzip: 开启gzip
+spaPrerender: 单页应用开启页面预渲染
+spaPrerenderRoute: 单页应用开启页面预渲染的路由（ex: ["/", "/home"]），默认首页
+spaCodeSplit: 单页应用开启路由页面的代码分割
+```

@@ -3,7 +3,6 @@ const path = require('path')
 const defaultProp = {
   appType: 'spa',
   assetRoot: './dist',
-  assetDirname: 'dist',
   assetPublicPath: '/',
   assetSubDirectory: 'static',
   apiUrl: '',

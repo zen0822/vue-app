@@ -13,7 +13,6 @@ module.exports = function (appName, opt = {}) {
     build: {
       env: require('./prod.env'),
       assetRoot: path.resolve(appDir, appConfig.assetRoot),
-      assetDirname: appConfig.assetDirname,
       assetPublicPath: appConfig.assetPublicPath,
       assetSubDirectory: appConfig.assetSubDirectory,
       productionSourceMap: false,
