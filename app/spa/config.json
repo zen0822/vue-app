@@ -7,5 +7,6 @@
   "hotPort": 5478,
   "mockPort": 9478,
   "gzip": true,
-  "spaPrerender": true
+  "spaPrerender": true,
+  "spaPrerenderRoute": ["/"]
 }
