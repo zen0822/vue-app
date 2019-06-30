@@ -22,7 +22,10 @@ export default {
   },
 
   mutations: {
-    [nameSpace.window.add](state, {prop, value}) {
+    [nameSpace.window.add](state, {
+      prop,
+      value
+    }) {
       state.window = {
         ...state.window,
         [prop]: value

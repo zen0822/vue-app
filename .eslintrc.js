@@ -4,7 +4,8 @@ module.exports = {
   env: {
     'browser': true,
     'node': true,
-    'jasmine': true
+    'jasmine': true,
+    'es6': true
   },
   parserOptions: {
     sourceType: 'module'
@@ -16,13 +17,17 @@ module.exports = {
   globals: {
     'document': true,
     'window': true,
-    '$': true
+    '$': true,
+    'exit': true,
+    'workbox': true
   },
   'rules': {
+    'quotes': ['error', 'single', {
+      'allowTemplateLiterals': true
+    }],
     'arrow-parens': 0,
     'generator-star-spacing': 0,
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
-    'indent': 0,
     'space-before-function-paren': 0,
     'no-unused-vars': 0,
     'no-multiple-empty-lines': 0,
@@ -32,7 +37,6 @@ module.exports = {
       'skipBlankLines': true
     }],
     'no-template-curly-in-string': 0,
-    'operator-linebreak': 0,
-    'eol-last': 0
+    'operator-linebreak': 0
   }
 }
