@@ -3,3 +3,5 @@
 node_modules
 .vscode/
 **/test/coverage/*
+app/spa/dist
+app/mpa/dist
