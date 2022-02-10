@@ -80,7 +80,7 @@
     "jsdoc-to-markdown": "^4.0.1",
     "latest": "^0.2.0",
     "mini-css-extract-plugin": "^0.4.4",
-    "node-sass": "^4.10.0",
+    "node-sass": "^7.0.0",
     "npm": "^6.9.0",
     "nprogress": "^0.2.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
